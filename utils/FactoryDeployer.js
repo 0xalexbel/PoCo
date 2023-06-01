@@ -15,6 +15,7 @@
  ******************************************************************************/
 
 const { ethers } = require('ethers');
+const { patchFACTORY } = require('./FactoryPatcher');
 const FACTORY    = require('@iexec/solidity/deployment/factory.json')
 
 async function waitTx(txPromise) { await (await txPromise).wait() }
@@ -28,6 +29,7 @@ class EthersDeployer
 	{
 		this.options = options;
 		this.factoryAsPromise = new Promise(async (resolve, reject) => {
+            await patchFACTORY(FACTORY);
 			if (await wallet.provider.getCode(FACTORY.address) !== "0x")
 			{
 				console.debug(`→ Factory is available on this network`);
