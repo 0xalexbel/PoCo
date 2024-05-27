@@ -24,11 +24,13 @@ import "./SignatureVerifier.sol";
 import "../DelegateBase.sol";
 import "../interfaces/IexecEscrowTokenSwap.sol";
 import "../interfaces/IexecPoco1.sol";
+import "@openzeppelin/contracts/math/Math.sol";
 
 
 contract IexecEscrowTokenSwapDelegate is IexecEscrowTokenSwap, DelegateBase, IexecERC20Core, SignatureVerifier
 {
-	using SafeMathExtended  for uint256;
+	using Math  for uint256;
+	using SafeMath  for uint256;
 	using IexecLibOrders_v5 for IexecLibOrders_v5.AppOrder;
 	using IexecLibOrders_v5 for IexecLibOrders_v5.DatasetOrder;
 	using IexecLibOrders_v5 for IexecLibOrders_v5.WorkerpoolOrder;

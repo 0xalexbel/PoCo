@@ -26,8 +26,6 @@ import "../interfaces/IexecEscrowNative.sol";
 
 contract IexecEscrowNativeDelegate is IexecEscrowNative, DelegateBase, IexecERC20Core
 {
-	using SafeMathExtended for uint256;
-
 	uint256 internal constant nRLCtoWei = 10 ** 9;
 	/***************************************************************************
 	 *                         Escrow methods: public                          *

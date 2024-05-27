@@ -32,7 +32,7 @@ contract IexecERC20DelegateKYC is IexecERC20Delegate, IexecERC20CoreKYC
 	}
 
 	function _isAuthorized(address account)
-	internal virtual override(IexecERC20Core, IexecERC20CoreKYC) returns (bool)
+	internal view virtual override(IexecERC20Core, IexecERC20CoreKYC) returns (bool)
 	{
 		return IexecERC20CoreKYC._isAuthorized(account);
 	}

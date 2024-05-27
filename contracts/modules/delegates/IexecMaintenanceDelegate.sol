@@ -21,11 +21,13 @@ pragma experimental ABIEncoderV2;
 
 import "../DelegateBase.sol";
 import "../interfaces/IexecMaintenance.sol";
+import "@openzeppelin/contracts/math/Math.sol";
 
 
 contract IexecMaintenanceDelegate is IexecMaintenance, DelegateBase
 {
-	using SafeMathExtended  for uint256;
+    using Math for uint256;
+	using SafeMath for uint256;
 	using IexecLibOrders_v5 for IexecLibOrders_v5.EIP712Domain;
 
 	function configure(

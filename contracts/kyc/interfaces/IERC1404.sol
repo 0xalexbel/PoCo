@@ -17,23 +17,10 @@
  ******************************************************************************/
 
 pragma solidity ^0.6.0;
-pragma experimental ABIEncoderV2;
-
-import "./IexecEscrowTokenDelegate.sol";
-import "./IexecERC20CoreKYC.sol";
 
 
-contract IexecEscrowTokenDelegateKYC is IexecEscrowTokenDelegate, IexecERC20CoreKYC
+interface IERC1404
 {
-	function _beforeTokenTransfer(address from, address to, uint256 amount)
-	internal virtual override(IexecERC20Core, IexecERC20CoreKYC)
-	{
-		IexecERC20CoreKYC._beforeTokenTransfer(from, to, amount);
-	}
-
-	function _isAuthorized(address account)
-	internal view virtual override(IexecERC20Core, IexecERC20CoreKYC) returns (bool)
-	{
-		return IexecERC20CoreKYC._isAuthorized(account);
-	}
+    function detectTransferRestriction(address from, address to, uint256 value) external view returns (uint8);
+    function messageForTransferRestriction(uint8 restrictionCode) external view returns (string memory);
 }

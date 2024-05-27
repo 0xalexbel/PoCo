@@ -4,12 +4,16 @@
   "description": "",
   "main": "truffle.js",
   "scripts": {
-    "build": "truffle compile",
-    "migrate": "truffle migrate",
-    "test": "truffle test",
+    "compile": "hardhat compile",
+    "build": "hardhat compile",
+    "clean": "hardhat clean",
+    "test": "hardhat test",
+    "truffle-build": "truffle compile",
+    "truffle-migrate": "truffle migrate",
+    "truffle-test": "truffle test",
     "autotest": "./autotest.sh",
-    "coverage": "NODE_OPTIONS='--max-old-space-size=8192' truffle run coverage",
-    "verify": "NODE_OPTIONS='--max-old-space-size=8192' truffle run verify"
+    "truffle-coverage": "NODE_OPTIONS='--max-old-space-size=8192' truffle run coverage",
+    "truffle-verify": "NODE_OPTIONS='--max-old-space-size=8192' truffle run verify"
   },
   "repository": {
     "type": "git",
@@ -26,25 +30,33 @@
   "license": "Apache-2.0",
   "homepage": "https://github.com/iExecBlockchainComputing/PoCo-dev.git#readme",
   "dependencies": {
-    "@iexec/erlc": "1.0.0",
-    "@iexec/interface": "3.0.35-8",
-    "@iexec/solidity": "0.1.0-legacy",
-    "@openzeppelin/contracts": "3.3.0",
-    "@uniswap/v2-periphery": "1.1.0-beta.0",
-    "rlc-faucet-contract": "1.0.9"
+    "@iexec/interface": "github:0xalexbel/iexec-interface-hardhat#v3-hardhat-foundry-solc-6",
+    "@iexec/solidity": "github:0xalexbel/iexec-solidity-hardhat#hardhat-foundry-solc-6",
+    "@openzeppelin/contracts": "^3.4.0",
+    "@uniswap/v2-periphery": "1.1.0-beta.0"
   },
   "devDependencies": {
+    "@iexec/erlc": "1.0.0",
+    "rlc-faucet-contract": "1.0.9",
     "@ensdomains/ens": "0.4.5",
     "@ensdomains/resolver": "0.2.4",
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.6",
+    "@nomicfoundation/hardhat-ethers": "^3.0.6",
+    "@nomicfoundation/hardhat-foundry": "^1.1.2",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.10",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@openzeppelin/test-helpers": "^0.5.10",
     "@truffle/hdwallet-provider": "^1.2.1",
-    "chai": "4.2.0",
+    "chai": "^4.4.1",
     "eth-sig-util": "3.0.0",
-    "ethers": "^5.0.25",
+    "ethers": "^6.1.0",
     "ganache-cli": "6.12.1",
+    "hardhat": "^2.22.4",
     "husky": "^4.3.7",
-    "solidity-coverage": "0.7.13",
+    "solidity-coverage": "^0.8.1",
     "truffle": "^5.1.61",
-    "truffle-plugin-verify": "^0.5.4"
+    "truffle-plugin-verify": "^0.5.4",
+    "web3-eth-contract": "^4.5.0",
+    "web3-utils": "^4.3.0"
   }
 }

@@ -25,7 +25,7 @@ import "./IexecERC20Core.sol";
 contract IexecERC20CoreKYC is IexecERC20Core
 {
 	function _isAuthorized(address account)
-	internal virtual override returns (bool)
+	internal view virtual override returns (bool)
 	{
 		return m_baseToken.isKYC(account);
 	}

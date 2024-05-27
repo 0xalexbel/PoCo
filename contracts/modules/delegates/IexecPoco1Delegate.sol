@@ -23,7 +23,8 @@ import "./IexecERC20Core.sol";
 import "./SignatureVerifier.sol";
 import "../DelegateBase.sol";
 import "../interfaces/IexecPoco1.sol";
-
+import "@openzeppelin/contracts/math/Math.sol";
+import "@iexec/solidity/contracts/Libs/SafeMathExtended.sol";
 
 struct Matching
 {
@@ -43,7 +44,8 @@ struct Matching
 
 contract IexecPoco1Delegate is IexecPoco1, DelegateBase, IexecERC20Core, SignatureVerifier
 {
-	using SafeMathExtended  for uint256;
+	using Math for uint256;
+	using SafeMathExtended for uint256;
 	using IexecLibOrders_v5 for IexecLibOrders_v5.AppOrder;
 	using IexecLibOrders_v5 for IexecLibOrders_v5.DatasetOrder;
 	using IexecLibOrders_v5 for IexecLibOrders_v5.WorkerpoolOrder;
@@ -81,9 +83,9 @@ contract IexecPoco1Delegate is IexecPoco1, DelegateBase, IexecERC20Core, Signatu
 		IexecLibOrders_v5.RequestOrder    memory _requestorder)
 	public override returns (bytes32)
 	{
-		/**
-		 * Check orders compatibility
-		 */
+		//
+		// Check orders compatibility
+		//
 
 		// computation environment & allowed enough funds
 		bytes32 tag = _apporder.tag | _datasetorder.tag | _requestorder.tag;
@@ -110,9 +112,9 @@ contract IexecPoco1Delegate is IexecPoco1, DelegateBase, IexecERC20Core, Signatu
 		require(_workerpoolorder.datasetrestrict   == address(0) || _checkIdentity(_workerpoolorder.datasetrestrict,   _datasetorder.dataset,       GROUPMEMBER_PURPOSE), 'iExecV5-matchOrders-0x1a');
 		require(_workerpoolorder.requesterrestrict == address(0) || _checkIdentity(_workerpoolorder.requesterrestrict, _requestorder.requester,     GROUPMEMBER_PURPOSE), 'iExecV5-matchOrders-0x1b');
 
-		/**
-		 * Check orders authenticity
-		 */
+		//
+		// Check orders authenticity
+		//
 		Matching memory ids;
 		ids.hasDataset = _datasetorder.dataset != address(0);
 
@@ -152,9 +154,9 @@ contract IexecPoco1Delegate is IexecPoco1, DelegateBase, IexecERC20Core, Signatu
 		require(_checkPresignatureOrSignature(_requestorder.requester, ids.requestorderStruct, _requestorder.sign), 'iExecV5-matchOrders-0x50');
 		require(_isAuthorized(_requestorder.requester),                                                             'iExecV5-matchOrders-0x51');
 
-		/**
-		 * Check availability
-		 */
+		//
+		// Check availability
+		//
 		uint256 volume;
 		volume =                             _apporder.volume.sub       (m_consumed[ids.apporderHash       ]);
 		volume = ids.hasDataset ? volume.min(_datasetorder.volume.sub   (m_consumed[ids.datasetorderHash   ])) : volume;
@@ -162,9 +164,9 @@ contract IexecPoco1Delegate is IexecPoco1, DelegateBase, IexecERC20Core, Signatu
 		volume =                  volume.min(_requestorder.volume.sub   (m_consumed[ids.requestorderHash   ]));
 		require(volume > 0, 'iExecV5-matchOrders-0x60');
 
-		/**
-		 * Record
-		 */
+		//
+		// Record
+		//
 		bytes32 dealid = keccak256(abi.encodePacked(
 			ids.requestorderHash,            // requestHash
 			m_consumed[ids.requestorderHash] // idx of first subtask
@@ -193,17 +195,17 @@ contract IexecPoco1Delegate is IexecPoco1, DelegateBase, IexecERC20Core, Signatu
 		deal.workerStake          = _workerpoolorder.workerpoolprice.percentage(Workerpool(_workerpoolorder.workerpool).m_workerStakeRatioPolicy());
 		deal.schedulerRewardRatio = Workerpool(_workerpoolorder.workerpool).m_schedulerRewardRatioPolicy();
 
-		/**
-		 * Update consumed
-		 */
+		//
+		// Update consumed
+		//
 		m_consumed[ids.apporderHash       ] = m_consumed[ids.apporderHash       ].add(                 volume    );
 		m_consumed[ids.datasetorderHash   ] = m_consumed[ids.datasetorderHash   ].add(ids.hasDataset ? volume : 0);
 		m_consumed[ids.workerpoolorderHash] = m_consumed[ids.workerpoolorderHash].add(                 volume    );
 		m_consumed[ids.requestorderHash   ] = m_consumed[ids.requestorderHash   ].add(                 volume    );
 
-		/**
-		 * Lock
-		 */
+		//
+		// Lock
+		//
 		lock(
 			deal.requester,
 			deal.app.price

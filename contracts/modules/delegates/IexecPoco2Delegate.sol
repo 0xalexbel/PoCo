@@ -24,10 +24,14 @@ import "./IexecERC20Core.sol";
 import "./SignatureVerifier.sol";
 import "../DelegateBase.sol";
 import "../interfaces/IexecPoco2.sol";
-
+import "@openzeppelin/contracts/math/Math.sol";
+import "@iexec/solidity/contracts/Libs/SafeMathExtended.sol";
 
 contract IexecPoco2Delegate is IexecPoco2, DelegateBase, IexecERC20Core, SignatureVerifier
 {
+    using Math for uint256;
+    using SafeMathExtended for uint256;
+
 	/***************************************************************************
 	 *                    Escrow overhead for contribution                     *
 	 ***************************************************************************/
@@ -58,9 +62,9 @@ contract IexecPoco2Delegate is IexecPoco2, DelegateBase, IexecERC20Core, Signatu
 		unlock(deal.workerpool.owner, poolstake);
 		// pool reward performed by consensus manager
 
-		/**
-		 * Retrieve part of the kitty
-		 */
+		//
+		// Retrieve part of the kitty
+		//
 		uint256 kitty = m_frozens[KITTY_ADDRESS];
 		if (kitty > 0)
 		{

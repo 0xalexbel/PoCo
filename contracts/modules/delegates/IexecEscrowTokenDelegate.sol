@@ -27,7 +27,6 @@ import "../interfaces/IexecTokenSpender.sol";
 
 contract IexecEscrowTokenDelegate is IexecEscrowToken, IexecTokenSpender, DelegateBase, IexecERC20Core
 {
-	using SafeMathExtended for uint256;
 
 	/***************************************************************************
 	 *                         Escrow methods: public                          *

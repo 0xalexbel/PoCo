@@ -17,23 +17,12 @@
  ******************************************************************************/
 
 pragma solidity ^0.6.0;
-pragma experimental ABIEncoderV2;
 
-import "./IexecEscrowTokenDelegate.sol";
-import "./IexecERC20CoreKYC.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "./IERC1404.sol";
+import "./IKYC.sol";
 
 
-contract IexecEscrowTokenDelegateKYC is IexecEscrowTokenDelegate, IexecERC20CoreKYC
+interface IERC20KYC is IERC1404, IKYC, IERC20
 {
-	function _beforeTokenTransfer(address from, address to, uint256 amount)
-	internal virtual override(IexecERC20Core, IexecERC20CoreKYC)
-	{
-		IexecERC20CoreKYC._beforeTokenTransfer(from, to, amount);
-	}
-
-	function _isAuthorized(address account)
-	internal view virtual override(IexecERC20Core, IexecERC20CoreKYC) returns (bool)
-	{
-		return IexecERC20CoreKYC._isAuthorized(account);
-	}
 }

@@ -24,13 +24,13 @@ import "../DelegateBase.sol";
 
 contract IexecERC20Core is DelegateBase
 {
-	using SafeMathExtended for uint256;
+	using SafeMath for uint256;
 
 	event Transfer(address indexed from, address indexed to, uint256 value);
 	event Approval(address indexed owner, address indexed spender, uint256 value);
 
 	function _isAuthorized(address)
-	internal virtual returns (bool)
+	internal view virtual returns (bool)
 	{
 		return true;
 	}
